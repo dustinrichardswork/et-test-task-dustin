@@ -1,7 +1,11 @@
 #!/usr/bin/env ts-node
 
+import { parseCmd } from "./cmd/parseCmd";
+
 main();
 
 async function main() {
-  console.log("hello world");
+  const config = await parseCmd();
+
+  console.log("parsed config: ", config);
 }
