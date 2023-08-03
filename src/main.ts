@@ -25,6 +25,7 @@ async function main() {
 
     const page: Page = {
       dom: parseHtml(crawlResult.content),
+      content: crawlResult.content,
       url: crawlResult.url,
     };
 

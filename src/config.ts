@@ -6,6 +6,6 @@ export type Config = {
 
 export const defaultConfig = {
   singleUrl: false,
-  crawlTotalPageLimit: 10,
+  crawlTotalPageLimit: 5,
   crawlDepth: 2,
 } satisfies Partial<Config>;

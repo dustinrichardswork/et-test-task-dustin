@@ -39,7 +39,7 @@ export function normalizeWeights(
 
   // Last step is to convert dictionary to array and sort by weight.
   return R.sortBy(
-    (x) => x.weight,
+    (x) => -x.weight,
     Object.entries(weightedDict).map(([keyword, weight]) => ({
       keyword,
       weight,

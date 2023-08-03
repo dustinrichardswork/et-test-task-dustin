@@ -1,3 +1,5 @@
+import { loadCrawlResult } from "../cache/loadCrawlResult";
+import { saveCrawlResult } from "../cache/saveCrawlResult";
 import { FifoQueue } from "../fifoQueue/fifoQueue";
 import { CrawlConfig } from "./crawlConfig";
 import { crawlSingle } from "./crawlSingle";
@@ -75,16 +77,24 @@ async function* _crawl(
     shared.visited.add(url);
 
     try {
-      const page = await crawlSingle(url);
-      shared.pageCount += 1;
+      const cached = await loadCrawlResult(url);
+      if (cached) {
+        shared.pageCount += 1;
+        yield cached;
+        nextDepthUrls.push(cached.links);
+      } else {
+        const page = await crawlSingle(url);
+        shared.pageCount += 1;
 
-      yield {
-        ...page,
-        depth: shared.depth,
-        url: url,
-      };
-
-      nextDepthUrls.push(page.links);
+        const crawlResult = {
+          ...page,
+          depth: shared.depth,
+          url: url,
+        };
+        await saveCrawlResult(crawlResult);
+        yield crawlResult;
+        nextDepthUrls.push(page.links);
+      }
     } catch (error) {
       shared.failed.push({
         url,
