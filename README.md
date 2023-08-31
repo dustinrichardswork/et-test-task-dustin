@@ -1,6 +1,6 @@
 # Overview
 
-PoC (Proof Of Concept) project to figure out keywords for a given website.
+PoC project to figure out keywords for a given website.
 
 ## Methodology
 
